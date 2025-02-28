@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparação de Valores no JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 60%;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        .input-container {
+            margin: 20px 0;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #resultado {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Comparação de Valores no JavaScript</h2>
+    <p>Veja a diferença entre <b>==</b> (compara apenas o valor) e <b>===</b> (compara valor e tipo).</p>
+
+    <table>
+        <tr>
+            <th>Valor 1</th>
+            <th>Valor 2</th>
+            <th>== (Apenas Valor)</th>
+            <th>=== (Valor e Tipo)</th>
+        </tr>
+        <tbody id="tabelaComparacao"></tbody>
+    </table>
+
+    <h3>Teste com Seus Próprios Valores</h3>
+    <div class="input-container">
+        <input type="text" id="valor1" placeholder="Digite o primeiro valor">
+        <input type="text" id="valor2" placeholder="Digite o segundo valor">
+        <button onclick="testeComparacao()">Comparar</button>
+    </div>
+    <p id="resultado"></p>
+
+    <script>
+        // Lista de comparações pré-definidas
+        const comparacoes = [
+            [1, '1'],
+            [30, '30'],
+            [10, '10'],
+            [false, '0'],
+            [null, undefined],
+            [' ', 0]
+        ];
+
+        function compararValores(valor1, valor2) {
+            let resultadoIgual = valor1 == valor2 ? '✅ Sim' : '❌ Não';
+            let resultadoEstrict = valor1 === valor2 ? '✅ Sim' : '❌ Não';
+
+            return `
+                <tr>
+                    <td>${valor1} (${typeof valor1})</td>
+                    <td>${valor2} (${typeof valor2})</td>
+                    <td>${resultadoIgual}</td>
+                    <td>${resultadoEstrict}</td>
+                </tr>
+            `;
+        }
+
+        function carregarTabela() {
+            let tabelaHTML = '';
+            comparacoes.forEach(([valor1, valor2]) => {
+                tabelaHTML += compararValores(valor1, valor2);
+            });
+            document.getElementById("tabelaComparacao").innerHTML = tabelaHTML;
+        }
+
+        function testeComparacao() {
+            let val1 = document.getElementById('valor1').value;
+            let val2 = document.getElementById('valor2').value;
+
+            // Conversão automática para evitar que tudo fique como string
+            let valorConvertido1 = isNaN(val1) ? val1 : Number(val1);
+            let valorConvertido2 = isNaN(val2) ? val2 : Number(val2);
+
+            let resultado = `📌 Comparação Personalizada:<br>
+            ${valorConvertido1} == ${valorConvertido2} ➝ <b>${valorConvertido1 == valorConvertido2}</b> (Comparação de Valor) <br>
+            ${valorConvertido1} === ${valorConvertido2} ➝ <b>${valorConvertido1 === valorConvertido2}</b> (Comparação de Valor e Tipo)`;
+
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+
+        // Carregar os valores iniciais na tabela ao abrir a página
+        carregarTabela();
+    </script>
+
+</body>
+</html>
